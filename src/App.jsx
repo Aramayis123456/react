@@ -11,6 +11,11 @@ function App() {
                     token && <Header/>
                 }
                 <Pages/>
+
+
+
+
+        {/*//asfsaf*/}
             <Footer />
     </>
 
