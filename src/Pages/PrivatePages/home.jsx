@@ -1,50 +1,64 @@
-import React from 'react';
-
+import React, {useEffect, useState} from 'react';
+import axios from "axios";
 
 const Home = () => {
-    const [width, setWidth] = React.useState(200);
-    const[top, setTop] = React.useState(0);
-    const[left, setLeft] = React.useState(0);
-    function minus(){
-        setWidth(width - 20);
-    }
-    function plus(){
-        setWidth(width + 20);
-    }
-    function topp (){
-            setTop(top + 20)
-    }
-    function bottomm (){
-            setTop(top - 20)
-    }
-    function leftt (){
-        setLeft(left + 20)
-    }
-    function right (){
-        setLeft(left - 20)
-    }
-    return (
-        <div className={"flex justify-center items-center flex-col gap-2"}>
-            <button onClick={minus}>-</button>  <button onClick={plus}>+</button>
-            <div style={{height: `${width}px`, width: `${width}px`, backgroundColor: '#d97706' ,position:"relative", }}>
-                <div style={{
-                    height: `${width/6}px`,
-                    width: `${width/6}px`,
-                    backgroundColor: 'black',
-                    position:"absolute",
-                    top:`${top}px`,
-                    bottom:`${top}px`,
-                    left:`${left}px`
-                }}></div>
-            </div>
 
-            <div style={{height:"200px", width:"300px",position:"relative"  }}>
-                <button className={"absolute left-[36%]"}  onClick={bottomm}>top</button>
-                <button className={"absolute right-0 top-[36%]"} onClick={leftt}>rigth</button>
-                <button className={"absolute left-0 top-[36%]"}  onClick={right} >left</button>
-                <button className={"absolute left-[36%] bottom-0"} onClick={topp}>bot</button>
+    const [posts, setPosts] = useState([])
+    const [title, setTitle] = useState('')
+    async function fetchPosts() {
+        try{
+            const response = await axios.get("http://localhost:4000/posts")
+            const data = await response.data
+            setPosts(data)
+        }catch (e) {
+            console.log(e.message)
+        }
+    }
+    useEffect(() => {
+        fetchPosts()
+    }, []);
+
+
+    async function addPost(e) {
+        e.preventDefault()
+        try{
+
+            const response = await axios.post("http://localhost:4000/posts", {
+                title
+            })
+            setTitle('')
+            fetchPosts()
+            return response.data
+
+        }catch (e) {
+            console.log(e.message)
+        }
+    }
+
+    return (
+        <div>
+
+            <ul>
+                {
+                    posts.map((post) =>
+                    <li key={post.id}>
+                        {`${post.id}: ${post.title} `}
+                    </li>)
+                }
+            </ul>
+            <div>
+                <input
+                    onChange={(e)=>{
+                        setTitle(e.target.value)
+                    }}
+                    type="text"
+                    value={title}
+                />
+                <button onClick={addPost}>
+                    Add Post
+                </button>
             </div>
-        </div>
+          </div>
     );
 };
 

@@ -22,7 +22,8 @@ const About = () => {
             }</button>
             { isOpen &&
                 <div className={`h-[100px] w-[100px] `}
-                     style={{ backgroundColor: `rgb(${color1}, ${color2}, ${color3})` }}></div>}
+                     style={{ backgroundColor: `rgb(${color1}, ${color2}, ${color3})` }}
+                ></div>}
         </div>
     );
 };

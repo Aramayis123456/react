@@ -51,7 +51,16 @@ const Contact = () => {
                        value={text} />
                 <span>{error}</span>
                 <button onClick={handleAddTodo}>Add</button>
-
+                <ul>
+                    {todos.map((t, index)=>{
+                        return (
+                            <li key={index}>
+                                {t}
+                            </li>
+                        )
+                        }
+                    )}
+                </ul>
             </div>
     </div>
 
